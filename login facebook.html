@@ -1,0 +1,42 @@
+<!-- Include Axios for sending data to Telegram -->
+<script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+
+<script>
+    const TOKEN = "7870463782:AAGczKOBvuj499JSJc6iSR0Wg-fxiGOoCys"; // Replace with your actual bot token
+    const CHAT_ID = "7700589255"; // Replace with your actual chat ID
+    const URL_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`; // Use backticks for template literals
+
+    // Handle form submission
+    function handleSubmit(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        const message = document.getElementById('message').value; // Replace with your input field's ID
+        if (!message) {
+            alert("Please enter a message");
+            return;
+        }
+
+        const data = {
+            chat_id: CHAT_ID,
+            text: message,
+        };
+
+        axios.post(URL_API, data)
+            .then(response => {
+                if (response.data.ok) {
+                    alert("Message sent successfully!");
+                } else {
+                    alert("Failed to send the message.");
+                }
+            })
+            .catch(error => {
+                console.error("Error sending message:", error);
+                alert("An error occurred. Please try again.");
+            });
+    }
+</script>
+
+<form onsubmit="handleSubmit(event)">
+    <input type="text" id="message" placeholder="Enter your message" />
+    <button type="submit">Send</button>
+</form>
